@@ -141,10 +141,12 @@ function endGame() {
   fill(255);
   text("Your Score: " + round(currentScore) + "\n Your High Score: " + round(highScore) + "\n \n \n Press enter to play again!", width / 2, height / 3);
   
+  /* FIREBASE
   if (!messageSent) {
     window.sendScore(highScore);
     messageSent = true;
   }
+  */
 }
 
 function checkScore() {
