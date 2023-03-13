@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  html, body {
+    font-family: 'Montserrat';
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    flex-wrap: nowrap;
+  }
+  canvas {
+    display: block;
+  }
+    
+    /*
+    body {
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      max-width: 50rem;
+      background-color: rgb(64, 51, 95);
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+      height: 100%;
+    } 
+    
+    .sign-in {
+      height: 4rem;
+      font-size: 2rem;
+      width: fit-content;
+      margin: 3rem auto;
+    }
+    
+    #top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background-color: rgb(23, 19, 32);
+      padding: 0.5rem;
+    }
+    
+    #-container {
+      background-color: rgb(64, 51, 95);
+      border-radius: 1rem;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column-reverse;
+      overflow-y: scroll;
+    }
+    
+    #message-composer {
+      display: flex;
+      justify-content: end;
+      position: sticky;
+      bottom: 0;
+    }
+    
+    .score {
+      margin: 0.5rem 0;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .score.left {
+      align-items: start;
+    }
+    
+    .score.left > .score-content {
+      border-bottom-left-radius: 0.2rem;
+      background-color: antiquewhite;
+    }
+    
+    .score.right {
+      align-items: end;
+    }
+    
+    .score.right > .score-content {
+      border-bottom-right-radius: 0.2rem;
+      background-color: rgb(168, 117, 161);
+    }
+    
+    .score-info {
+      margin-top: 0.3rem;
+      color: black;
+      font-size: smaller;
+    }
+    
+    .score-content {
+      padding: 0.5rem;
+      width: fit-content;
+      max-width: 80%;
+      color: rgb(23, 19, 32);
+      border-radius: 1rem;
+    }
+    
+    #message-entry {
+      width: 100%;
+      height: 2rem;
+      padding: 0.2rem 0.7rem;
+      margin: 0.5rem;
+      border-radius: 1rem;
+      border: none;
+      background-color: antiquewhite;
+    }
+    
+    #message-entry:focus {
+      outline: none;
+    } */
+    
+    /* SCROLLBAR */
+    
+    /* width */
+    ::-webkit-scrollbar {
+      width: 7px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: rgb(64, 51, 95);
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: rgb(87, 72, 107);
+      border-radius: 10px;
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgb(130, 112, 153);
+    }
