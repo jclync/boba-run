@@ -1,6 +1,5 @@
 let cookieChar, ground, blobs;
 let spriteX, spriteY, spriteSize, spriteSpeed;
-let song;
 
 let currentScore, highScore, lives, life, gameOver; 
 let noLives = "Lives: 💔 💔 💔";
@@ -11,9 +10,9 @@ let threeLives = "Lives: ❤️‍🔥 ❤️‍🔥 ❤️‍🔥";
 let messageSent = false;
 
 function preload() {
-    happyMole = loadImage('images/happyBobaBee.gif');
-    sadMole = loadImage('images/sadBobaBee.gif');
-    cheerMole = loadImage('images/cheerBobaBee.gif');
+    happyBee = loadImage('images/happyBobaBee.gif');
+    sadBee= loadImage('images/sadBobaBee.gif');
+    cheerBee = loadImage('images/cheerBobaBee.gif');
     owSong = loadSound('audio/ow.mp3');
     wrongSong = loadSound('audio/wrong.mp3');
 }
@@ -21,18 +20,18 @@ function preload() {
 function setup() {
     createCanvas(800, 450);
 
-    // resize images
-    //happyMole.resize(70, 70);
-    cheerMole.resize(85,85);
-    sadMole.resize(60, 60); 
+    // resize character sizes
+    //happyBee.resize(70, 70);
+    cheerBee.resize(85,85);
+    sadBee.resize(60, 60); 
 
-    spriteSize = 40;
     spriteX = 80;
+    spriteSize = 40;
     spriteY = height/2 - spriteSize/2;
     ground = new Sprite(0, height/4*3, width*3, 5, 'static');
     blobs = new Group();
     cookieChar = new Sprite(spriteX, spriteY, spriteSize);
-    cookieChar.img = cheerMole;
+    cookieChar.img = cheerBee;
     world.gravity.y = 10.8; 
     
     // set scores and stuff
@@ -138,7 +137,7 @@ function endGame() {
     
     // reset and clear screen
     cookieChar.sleeping = true;
-    cookieChar.img = sadMole;
+    cookieChar.img = sadBee;
 
     blobs.removeAll();
     background(0);
@@ -172,6 +171,10 @@ function restart() {
     currentScore = 0;
     gameOver = false;
     messageSent = false;
-    cookieChar.img = cheerMole;
+
+    //reset bee
+    cookieChar.img = cheerBee;
     cookieChar.rotation = 0;
+    cookieChar.position = {x: 80, y: 205};
+    world.gravity.y = 10.8; 
 }
