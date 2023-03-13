@@ -13,6 +13,12 @@
   }
   canvas {
     display: block;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100vh;
+    flex-wrap: nowrap;
   }
     
     /*
