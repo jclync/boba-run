@@ -21,7 +21,7 @@ function preload() {
   	char1 = new Sprite(80, 200, 74, 60);
 	char1.spriteSheet = 'images/spriteSheet1.png';
     char1.anis.offset.y = 2;
-	char1.anis.frameDelay = 8;
+	char1.anis.frameDelay = 6;
 
 	char1.addAnis({
 		run: { row: 0, frames: 5},
@@ -34,12 +34,12 @@ function preload() {
 
     char2 = new Sprite(80, 200, 74, 60);
 	char2.spriteSheet = 'images/spriteSheet2.png';
-	char2.anis.frameDelay = 8;
+	char2.anis.frameDelay = 12;
 
 	char2.addAnis({
-		run: { row: 0, frames: 5},
-        twoLives: {row: 1, frames: 5},
-        oneLife: {row: 2, frames: 5},
+		run: { row: 0, frames: 2},
+        twoLives: {row: 1, frames: 2},
+        oneLife: {row: 2, frames: 2},
         dead: {row: 3, frames: 5}
 	});
     
