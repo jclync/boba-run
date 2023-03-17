@@ -20,7 +20,7 @@ function preload() {
     bobas = new Group();
     bobas.img = 'images/boba.png';
 
-  	char1 = new Sprite(80, 200, 74, 60);
+  	char1 = new Sprite(80, 200, 66, 53);
 	char1.spriteSheet = 'images/spriteSheet1.png';
     //char1.anis.offset.y = 2;
 	char1.anis.frameDelay = 6;
@@ -34,7 +34,7 @@ function preload() {
 	char1.ani = 'run';
   
 
-    char2 = new Sprite(80, 200, 74, 60);
+    char2 = new Sprite(80, 200, 52, 57);
 	char2.spriteSheet = 'images/spriteSheet2.png';
 	char2.anis.frameDelay = 12;
 
@@ -55,20 +55,25 @@ function setup() {
     textFont('Courier New');
     song.play();
     song.setVolume(0.6);
+    song.loop();
     owSong.setVolume(1);
+    collectSong.setVolume(1);
     allSprites.pixelPerfect = true; // the sprite will be drawn at integer coordinates
     //createCanvas(125, 48, 'pixelated x4');
 
     spriteX = 80;
     spriteSize = 40;
     spriteY = height/2 - spriteSize/2;
+    world.gravity.y = 10.8; 
+
     ground = new Sprite(0, height/4*3, width*3, 10, 'static');
     ceiling = new Sprite(0, -5, width*3, 1, 'static');
-    ground.color = 'green';
     ground.stroke = 'green';
+    ground.color = 'green';
     blobs = new Group();
     char2.visible = false;
-    world.gravity.y = 10.8; 
+    //char2.debug = true;
+    //char1.debug = true;
     
     // set scores and stuff
     currentScore = 0;
@@ -76,6 +81,7 @@ function setup() {
     lives = 3;
     gameOver = false;
     spriteSpeed = 0;
+    currentTime = 0;
 }
 
 function draw() {
@@ -84,8 +90,9 @@ function draw() {
     }
 }
 
+// play game
 function playGame() { 
-    currentTime = millis()/1000;
+    currentTime += 1/60;
   
     //set game screen text
     setGameScreen();
@@ -94,6 +101,7 @@ function playGame() {
     if (random(1) < 0.01) {
         new blobs.Sprite(width, (height/4*3) - spriteSize/2, spriteSize/2);
       
+        // randomize boba generation
         new bobas.Sprite(width + 50, bobaHeight, 'kinematic');
         bobaHeight = random(height/4*3);
         //boba.position = {x: width + 50, y: bobaHeight};
@@ -103,7 +111,6 @@ function playGame() {
   
     char1.overlaps(bobas, collect);
     char2.overlaps(bobas, collect);
-    char1.debug = true;
 
     spriteSpeed = 2 + sqrt(currentTime)/5;
     blobs.move(width * 2, 'left', spriteSpeed);
@@ -112,19 +119,22 @@ function playGame() {
     char2.overlaps(blobs, removeBlob);
 }
 
+// collect boba
 function collect(player, boba) {
     boba.remove();  
     collectSong.play();
-    currentScore += 50;
+    currentScore += 20;
 }
 
+// remove blob
 function removeBlob(player, blob) {
     blob.remove();
     currentScore -= 10;
     updateLives();
-    player.position = {x: 80, y: 300};
+    //player.position = {x: 80, y: 300};
 }
 
+// set text of game screen
 function setGameScreen() {
     textSize(15);
     background('#82DAF7');
@@ -140,7 +150,7 @@ function setGameScreen() {
     text('Press space or up arrow to jump. \n Press (c) to change character. \n Press (q) to quit.', width - 30, (height / 4 * 3) + 50);
 }
 
-// 'space' or uparrow to jump; enter or 'r' to restart
+// 'space' or uparrow to jump; enter or 'r' to restart; 'c' to change character; 'q' to quit game
 function keyPressed() {
     if (!gameOver) {
         if (keyCode == UP_ARROW) { // up arrow
@@ -168,6 +178,9 @@ function keyPressed() {
     return false;
 }
 
+// switch characters
+//  ~ character 1: bobabee
+//  ~ character 2: ladybug
 function switchCharacter() {
     //count++;
   if (!charSwitched) {
@@ -181,6 +194,7 @@ function switchCharacter() {
   }
 }
 
+// check how many lives you have left; change to corresponding character sprite animation state
 function checkLives() {
     if (lives == 3) {
         life = threeLives;
@@ -197,6 +211,7 @@ function checkLives() {
     }
 }
 
+// update lives and end game if no lives left
 function updateLives() {
     owSong.play();
     lives--;
@@ -206,6 +221,7 @@ function updateLives() {
     }
 }
 
+// end game
 function endGame() {
     gameOver = true;
     background(0);
@@ -220,7 +236,7 @@ function endGame() {
     bobas.removeAll();
     blobs.removeAll();
     
-    checkScore();
+    updateScore();
     
     textAlign(CENTER);
     textSize(40);
@@ -240,17 +256,20 @@ function endGame() {
     */
 }
 
-function checkScore() {
+// update high score
+function updateScore() {
     if (currentScore > highScore) {
         highScore = round(currentScore);
     }
 }
 
+// reset all variables and set everything back to default
 function restart() {
     lives = 3;
     currentScore = 0;
     gameOver = false;
     messageSent = false;
+    currentTime = 0;
 
     //reset character
     world.gravity.y = 10.8; 
