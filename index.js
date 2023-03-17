@@ -54,6 +54,7 @@ function setup() {
     createCanvas(800, 450);
     textFont('Courier New');
     song.play();
+    song.loop();
     song.setVolume(0.6);
     owSong.setVolume(1);
     collectSong.setVolume(1);
