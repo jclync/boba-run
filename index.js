@@ -93,7 +93,7 @@ function draw() {
 
 // play game
 function playGame() { 
-    currentTime = millis()/1000;
+    currentTime += 1/60;
   
     //set game screen text
     setGameScreen();
