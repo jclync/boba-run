@@ -1,4 +1,4 @@
-let char1, char2, cookieChar;
+let char1, char2;
 let charSwitched = false;
 let song;
 let bobas, bobaHeight, ground, blobs;
@@ -54,28 +54,21 @@ function setup() {
     createCanvas(800, 450);
     textFont('Courier New');
     song.play();
-    song.loop();
     song.setVolume(0.6);
     owSong.setVolume(1);
-    collectSong.setVolume(1);
     allSprites.pixelPerfect = true; // the sprite will be drawn at integer coordinates
     //createCanvas(125, 48, 'pixelated x4');
 
     spriteX = 80;
     spriteSize = 40;
     spriteY = height/2 - spriteSize/2;
-    world.gravity.y = 10.8; 
-
     ground = new Sprite(0, height/4*3, width*3, 10, 'static');
     ceiling = new Sprite(0, -5, width*3, 1, 'static');
-    ground.stroke = 'green';
     ground.color = 'green';
+    ground.stroke = 'green';
     blobs = new Group();
-    cookieChar = new Sprite(spriteX, 315, 40, 40);
-    char1.overlaps(cookieChar);
-    char2.overlaps(cookieChar);
-    cookieChar.visible = false;
     char2.visible = false;
+    world.gravity.y = 10.8; 
     
     // set scores and stuff
     currentScore = 0;
@@ -83,7 +76,6 @@ function setup() {
     lives = 3;
     gameOver = false;
     spriteSpeed = 0;
-    currentTime = 0;
 }
 
 function draw() {
@@ -92,9 +84,8 @@ function draw() {
     }
 }
 
-// play game
 function playGame() { 
-    currentTime += 1/60;
+    currentTime = millis()/1000;
   
     //set game screen text
     setGameScreen();
@@ -103,7 +94,6 @@ function playGame() {
     if (random(1) < 0.01) {
         new blobs.Sprite(width, (height/4*3) - spriteSize/2, spriteSize/2);
       
-        // randomize boba generation
         new bobas.Sprite(width + 50, bobaHeight, 'kinematic');
         bobaHeight = random(height/4*3);
         //boba.position = {x: width + 50, y: bobaHeight};
@@ -113,25 +103,21 @@ function playGame() {
   
     char1.overlaps(bobas, collect);
     char2.overlaps(bobas, collect);
-    cookieChar.overlaps(bobas, collect);
-    console.log(currentTime);
+    char1.debug = true;
 
     spriteSpeed = 2 + sqrt(currentTime)/5;
     blobs.move(width * 2, 'left', spriteSpeed);
 
     char1.overlaps(blobs, removeBlob);
     char2.overlaps(blobs, removeBlob);
-    cookieChar.overlaps(blobs, removeBlob);
 }
 
-// collect boba
 function collect(player, boba) {
     boba.remove();  
     collectSong.play();
-    currentScore += 20;
+    currentScore += 50;
 }
 
-// remove blob
 function removeBlob(player, blob) {
     blob.remove();
     currentScore -= 10;
@@ -139,7 +125,6 @@ function removeBlob(player, blob) {
     player.position = {x: 80, y: 300};
 }
 
-// set text of game screen
 function setGameScreen() {
     textSize(15);
     background('#82DAF7');
@@ -155,17 +140,15 @@ function setGameScreen() {
     text('Press space or up arrow to jump. \n Press (c) to change character. \n Press (q) to quit.', width - 30, (height / 4 * 3) + 50);
 }
 
-// 'space' or uparrow to jump; enter or 'r' to restart; 'c' to change character; 'q' to quit game
+// 'space' or uparrow to jump; enter or 'r' to restart
 function keyPressed() {
     if (!gameOver) {
         if (keyCode == UP_ARROW) { // up arrow
             char1.move(125, 'up', 6.5);
             char2.move(125, 'up', 6.5);
-            cookieChar.move(125, 'up', 6.5);
         } else if (key == ' ') { // space
             char1.move(125, 'up', 6.5);
             char2.move(125, 'up', 6.5);
-            cookieChar.move(125, 'up', 6.5);
         } 
     } else {
         if (keyCode == '13') { // enter
@@ -185,9 +168,6 @@ function keyPressed() {
     return false;
 }
 
-// switch characters
-//  ~ character 1: bobabee
-//  ~ character 2: ladybug
 function switchCharacter() {
     //count++;
   if (!charSwitched) {
@@ -201,7 +181,6 @@ function switchCharacter() {
   }
 }
 
-// check how many lives you have left; change to corresponding character sprite animation state
 function checkLives() {
     if (lives == 3) {
         life = threeLives;
@@ -218,7 +197,6 @@ function checkLives() {
     }
 }
 
-// update lives and end game if no lives left
 function updateLives() {
     owSong.play();
     lives--;
@@ -228,7 +206,6 @@ function updateLives() {
     }
 }
 
-// end game
 function endGame() {
     gameOver = true;
     background(0);
@@ -243,7 +220,7 @@ function endGame() {
     bobas.removeAll();
     blobs.removeAll();
     
-    updateScore();
+    checkScore();
     
     textAlign(CENTER);
     textSize(40);
@@ -263,23 +240,19 @@ function endGame() {
     */
 }
 
-// update high score
-function updateScore() {
+function checkScore() {
     if (currentScore > highScore) {
         highScore = round(currentScore);
     }
 }
 
-// reset all variables and set everything back to default
 function restart() {
     lives = 3;
     currentScore = 0;
     gameOver = false;
     messageSent = false;
-    currentTime = 0;
 
     //reset character
-    cookieChar.position = {x: 80, y: 315};
     world.gravity.y = 10.8; 
     char1.ani = 'run';
     char2.ani = 'run';
