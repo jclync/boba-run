@@ -103,7 +103,7 @@ function playGame() {
   
     char1.overlaps(bobas, collect);
     char2.overlaps(bobas, collect);
-    char1.debug = true;
+    //char1.debug = true;
 
     spriteSpeed = 2 + sqrt(currentTime)/5;
     blobs.move(width * 2, 'left', spriteSpeed);
