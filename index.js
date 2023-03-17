@@ -1,11 +1,10 @@
-let char1, char2;
+let char1, char2, cookieChar;
 let charSwitched = false;
 let song;
-
-let cookieChar, ground, blobs;
+let bobas, bobaHeight, ground, blobs;
 let spriteX, spriteY, spriteSize, spriteSpeed;
 
-let currentScore, highScore, lives, life, gameOver; 
+let currentScore, highScore, lives, life, gameOver, currentTime; 
 let noLives = "Lives: 💔 💔 💔";
 let oneLife = "Lives: ❤️‍🔥 💔 💔";
 let twoLives = "Lives: ❤️‍🔥 ❤️‍🔥 💔";
@@ -15,8 +14,11 @@ let messageSent = false;
 
 function preload() {
     owSong = loadSound('audio/ow.mp3');
-    wrongSong = loadSound('audio/wrong.mp3');
+    collectSong = loadSound('audio/collect.mp3');
     song = loadSound('audio/music.mp3');
+  
+    bobas = new Group();
+    bobas.img = 'images/boba.png';
 
   	char1 = new Sprite(80, 200, 74, 60);
 	char1.spriteSheet = 'images/spriteSheet1.png';
@@ -61,6 +63,7 @@ function setup() {
     spriteSize = 40;
     spriteY = height/2 - spriteSize/2;
     ground = new Sprite(0, height/4*3, width*3, 10, 'static');
+    ceiling = new Sprite(0, -5, width*3, 1, 'static');
     ground.color = 'green';
     blobs = new Group();
     cookieChar = new Sprite(spriteX, 315, 40, 40);
@@ -84,33 +87,53 @@ function draw() {
     }
 }
 
-function playGame() {  
+function playGame() { 
+    currentTime = millis()/1000;
+  
     //set game screen text
     setGameScreen();
 
     // randomize appearance of obstacles 
     if (random(1) < 0.01) {
         new blobs.Sprite(width, (height/4*3) - spriteSize/2, spriteSize/2);
+      
+        new bobas.Sprite(width + 50, bobaHeight, 'kinematic');
+        bobaHeight = random(height/4*3);
+        //boba.position = {x: width + 50, y: bobaHeight};
+        bobas.move(width * 3, 'left', 3);
+        bobas.overlaps(blobs);
     }
+  
+    char1.overlaps(bobas, collect);
+    char2.overlaps(bobas, collect);
+    cookieChar.overlaps(bobas, collect);
 
-    spriteSpeed = 2 + sqrt(currentScore)/5;
-    blobs.move(width*2, 'left', spriteSpeed);
+    spriteSpeed = 2 + sqrt(currentTime)/5;
+    blobs.move(width * 2, 'left', spriteSpeed);
 
-    if (blobs.overlapping(char1) || blobs.overlapping(char2)) {
-        if (cookieChar.collides(blobs)) {
-            blobs.removeAll();
-            char1.position = {x: 80, y: 300};
-            cookieChar.position = {x: 80, y: 315};
-            char2.position = {x: 80, y: 300};
-          
-            updateLives();
-        }
-    }
+    char1.overlaps(blobs, removeBlob);
+    char2.overlaps(blobs, removeBlob);
+    cookieChar.overlaps(blobs, removeBlob);
+}
+
+function collect(player, boba) {
+    boba.remove();  
+    collectSong.play();
+    currentScore += 50;
+}
+
+function removeBlob(player, blob) {
+    blob.remove();
+    currentScore -= 10;
+    updateLives();
+    player.position = {x: 80, y: 300};
 }
 
 function setGameScreen() {
     textSize(15);
-    background(240);
+    background('#82DAF7');
+    fill('green');
+    rect(0, height/4*3, width, 200);
     fill(0);
     textAlign(LEFT);
     currentScore += 1/50;
@@ -191,14 +214,17 @@ function updateLives() {
 
 function endGame() {
     gameOver = true;
+    background(0);
+    fill('green');
+    rect(0, height/4*3, width, 200);
 
     char1.sleeping = true;
     char1.ani = 'dead';
     char2.sleeping = true;
     char2.ani = 'dead';
 
+    bobas.removeAll();
     blobs.removeAll();
-    background(0);
     
     checkScore();
     
