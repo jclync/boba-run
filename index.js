@@ -127,7 +127,7 @@ function playGame() {
 function collect(player, boba) {
     boba.remove();  
     collectSong.play();
-    currentScore += 50;
+    currentScore += 20;
 }
 
 // remove blob
