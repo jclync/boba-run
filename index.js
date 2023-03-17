@@ -82,6 +82,7 @@ function setup() {
     lives = 3;
     gameOver = false;
     spriteSpeed = 0;
+    currentTime = 0;
 }
 
 function draw() {
@@ -112,6 +113,7 @@ function playGame() {
     char1.overlaps(bobas, collect);
     char2.overlaps(bobas, collect);
     cookieChar.overlaps(bobas, collect);
+    console.log(currentTime);
 
     spriteSpeed = 2 + sqrt(currentTime)/5;
     blobs.move(width * 2, 'left', spriteSpeed);
@@ -125,7 +127,7 @@ function playGame() {
 function collect(player, boba) {
     boba.remove();  
     collectSong.play();
-    currentScore += 50;
+    currentScore += 20;
 }
 
 // remove blob
@@ -273,6 +275,7 @@ function restart() {
     currentScore = 0;
     gameOver = false;
     messageSent = false;
+    currentTime = 0;
 
     //reset character
     cookieChar.position = {x: 80, y: 315};
