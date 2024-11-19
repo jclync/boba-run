@@ -5,7 +5,6 @@ let bobas, bobaHeight, ground;
 let bobaCount = 0;
 let blobs, blobHeight, blobSpeed;
 let spriteX, spriteY, spriteSize;
-let highlightScore;
 let onScoreboard = false;
 
 let currentScore, highScore, lives, life, gameOver, currentTime; 
@@ -81,8 +80,6 @@ function setup() {
   ground.color = 'green';
   blobs = new Group();
   char2.visible = false;
-  //char2.debug = true;
-  //char1.debug = true;
     
   // set scores and stuff
   currentScore = 0;
@@ -108,7 +105,7 @@ function playGame() {
 
   // randomize appearance of obstacles 
   if (random(1) < 0.01) {
-    new blobs.Sprite(width, (height/4*3) - spriteSize/2, spriteSize/2);
+    blobs.add(new Sprite(width, (height/4*3) - spriteSize/2, spriteSize/2));
 
     // randomize boba generation
     new bobas.Sprite(width + 50, bobaHeight, 'kinematic');
@@ -175,22 +172,22 @@ function keyPressed() {
             char2.move(125, 'up', 6.5);
         } 
     } else {
-        if (keyCode == '13') { // enter
+        if (keyCode === 13) { // enter
             restart();
             playGame();
         }
     }
     
-    if (keyCode == '82') { // 'r' key
+    if (keyCode === 82) { // 'r' key
         restart();
         playGame();
-    } else if (keyCode == '81') { // 'q' key
+    } else if (keyCode === 81) { // 'q' key
       if (!gameOver) {
         endGame();
       }  
-    } else if (keyCode == '67') { // 'c' key
+    } else if (keyCode === 67) { // 'c' key
         switchCharacter();
-    } else if (keyCode == '77') { // 'm' key
+    } else if (keyCode === 77) { // 'm' key
         muteAudio();
     }
     return false;
