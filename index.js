@@ -5,6 +5,7 @@ let bobas, bobaHeight, ground;
 let bobaCount = 0;
 let blobs, blobHeight, blobSpeed;
 let spriteX, spriteY, spriteSize;
+let highlightScore;
 let onScoreboard = false;
 
 let currentScore, highScore, lives, life, gameOver, currentTime; 
@@ -80,6 +81,8 @@ function setup() {
   ground.color = 'green';
   blobs = new Group();
   char2.visible = false;
+  //char2.debug = true;
+  //char1.debug = true;
     
   // set scores and stuff
   currentScore = 0;
