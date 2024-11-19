@@ -19,6 +19,9 @@
     justify-content: center;
     flex-wrap: nowrap;
   }
+  div.instructions {
+    margin: 1rem 3rem;
+  }
     
     /*
     body {
